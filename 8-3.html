@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bất ngờ 8/3</title>
+
+<style>
+
+/* nền động */
+
+body{
+margin:0;
+font-family:Segoe UI,Arial;
+text-align:center;
+height:100vh;
+overflow:hidden;
+background:linear-gradient(270deg,#ff9a9e,#fad0c4,#ffc3a0,#ff9a9e);
+background-size:800% 800%;
+animation:bgMove 15s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+h1{
+color:white;
+margin-top:90px;
+text-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+/* nút */
+
+button{
+padding:12px 28px;
+font-size:18px;
+border:none;
+border-radius:30px;
+margin:10px;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+#yes{
+background:#ff4d6d;
+color:white;
+position:absolute;
+}
+
+#no{
+background:white;
+color:#ff4d6d;
+}
+
+.hidden{
+display:none;
+}
+
+/* lá thư */
+
+#letter{
+width:240px;
+height:160px;
+background:linear-gradient(#ffb6c1,#ff8fab);
+margin:auto;
+margin-top:120px;
+border-radius:15px;
+position:relative;
+cursor:pointer;
+box-shadow:0 15px 30px rgba(0,0,0,0.3);
+transition:0.2s;
+}
+
+#seal{
+position:absolute;
+top:40%;
+left:45%;
+font-size:40px;
+}
+
+/* tim bay */
+
+.heart{
+position:absolute;
+color:#ff4d6d;
+font-size:20px;
+animation:float 4s linear infinite;
+}
+
+@keyframes float{
+from{
+transform:translateY(100vh);
+opacity:1;
+}
+to{
+transform:translateY(-10vh);
+opacity:0;
+}
+}
+
+/* thơ */
+
+#msg{
+color:white;
+font-size:20px;
+margin-top:30px;
+white-space:pre-line;
+text-shadow:0 0 10px rgba(0,0,0,0.2);
+animation:fadeIn 2s;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="q1">
+
+<h1>🎁 Bạn có muốn nhận quà 8/3 không?</h1>
+
+<button id="yes">Có</button>
+<button id="no">Không</button>
+
+<p style="color:white">Hãy bắt được nút Có 😆</p>
+
+</div>
+
+
+<div id="q2" class="hidden">
+
+<h1>Bạn muốn gửi quà cho ai?</h1>
+
+<button onclick="choose('teacher')">👩‍🏫 Cô giáo</button>
+<button onclick="choose('girl')">🌸 Bạn nữ</button>
+
+</div>
+
+
+<div id="letterBox" class="hidden">
+
+<h1>💌 Hãy chạm vào lá thư</h1>
+
+<div id="letter">
+<div id="seal">❤️</div>
+</div>
+
+<div id="msg"></div>
+
+</div>
+
+
+<script>
+
+/* tim bay nền */
+
+function createHeart(){
+
+let heart=document.createElement("div")
+
+heart.className="heart"
+heart.innerHTML="❤"
+
+heart.style.left=Math.random()*100+"vw"
+heart.style.fontSize=(Math.random()*20+10)+"px"
+
+document.body.appendChild(heart)
+
+setTimeout(()=>{heart.remove()},4000)
+
+}
+
+setInterval(createHeart,400)
+
+
+/* nút có chạy trốn */
+
+let yes=document.getElementById("yes")
+
+let started=false
+let stopMove=false
+
+function moveYes(){
+
+if(stopMove) return
+
+yes.style.left=Math.random()*80+"vw"
+yes.style.top=Math.random()*80+"vh"
+
+if(!started){
+
+started=true
+
+setTimeout(()=>{
+stopMove=true
+yes.style.position="static"
+},5000)
+
+}
+
+}
+
+yes.addEventListener("mouseover",moveYes)
+yes.addEventListener("touchstart",moveYes)
+
+yes.onclick=()=>{
+
+if(!stopMove) return
+
+document.getElementById("q1").classList.add("hidden")
+document.getElementById("q2").classList.remove("hidden")
+
+}
+
+
+/* chọn */
+
+let type=""
+
+function choose(t){
+
+type=t
+
+document.getElementById("q2").classList.add("hidden")
+document.getElementById("letterBox").classList.remove("hidden")
+
+}
+
+
+/* lá thư */
+
+let letter=document.getElementById("letter")
+let clicks=0
+
+letter.onclick=()=>{
+
+clicks++
+
+letter.style.transform="rotate("+(Math.random()*12-6)+"deg) scale("+(1+clicks*0.2)+")"
+
+if(clicks>=4){
+
+letter.style.display="none"
+
+for(let i=0;i<40;i++){
+createHeart()
+}
+
+let msg=document.getElementById("msg")
+
+if(type=="teacher"){
+
+msg.innerText=`Cô là cô tấm hiền hòa
+Việc trường, việc lớp, việc nhà đảm đang
+Tính tình vui vẻ dịu dàng
+Bạn bè quý mến, trò càng yêu thương.
+
+Người luôn vun đắp việc trường
+Khó khăn chẳng ngại - Lời thương dành nhiều
+Cùng chung gánh vác bao điều
+Chuyên môn việc chính -bao nhiêu tháng ngày.
+
+Nữ công khéo léo hăng say
+Chị em tâm sự điều hay, điều buồn
+Đồng nghiệp ai cũng quý luôn
+Thật thà, chất phác, mến thương mọi người
+
+Yêu cô như mẹ, cô ơi!
+Mượn lời thơ gửi tình người thiết tha!`
+
+}
+
+else{
+
+msg.innerText=`Chúc các bạn nữ gần xa
+Ngày này rạng rỡ như hoa trên cành
+Việc làm thì thuận, thì nhanh
+Tình yêu phơi phới, mong manh chẳng còn.
+
+Tiền vào như nước đầu nguồn
+Muộn phiền tan biến, chỉ còn niềm vui!`
+
+}
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
